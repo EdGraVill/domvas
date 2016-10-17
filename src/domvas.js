@@ -85,3 +85,38 @@
 
 })();
 
+//Just adding "domvas" as a class, any element can be converted to a canvas element and then can be dowloaded as image file.
+
+if (document.getElementsByClassName("domvas")[0] != undefined) {
+	var dig = document.getElementsByClassName("domvas");
+	var getbody = document.getElementsByTagName("body")[0];
+
+	for (var i = 0; i < dig.length; i++) {
+		dig[i].setAttribute('ondblclick', 'start(this)')
+	}
+
+	getbody.innerHTML += '<div id="contenedor" style="width: 100vw; height: 100vh; position: fixed; background: rgba(0,0,0,.4); top: 0; left: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 5; visibility: hidden"><canvas id="theImg" style="width: 40%"></canvas><button style="margin-top: 5vh; padding: 10px 30px; border: none; border: 3px solid white; background: none; border-radius: 10px; font-size: 1.3rem; color: white; font-weight: bold;" onmousedown="disappear()">Close</button></div>'
+
+	var theContenedor = document.getElementById('contenedor');
+	var theImg = document.getElementById('theImg');
+	var theImgCtx = theImg.getContext('2d');
+}
+
+function start(img) {
+	var elwdth = parseInt(img.offsetWidth);
+	var elheth = parseInt(img.offsetHeight);
+
+	theImg.setAttribute('width', elwdth);
+	theImg.setAttribute('height', elheth);
+
+	theContenedor.style.visibility = 'visible';
+
+	domvas.toImage(img, function() {
+		// Look ma, I just converted this element to an image and can now to funky stuff!
+		theImgCtx.drawImage(this, 0, 0);
+	});
+}
+
+function disappear() {
+	theContenedor.style.visibility = 'hidden';
+}
